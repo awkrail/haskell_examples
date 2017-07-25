@@ -81,14 +81,15 @@ myCompare a b
 	| a <= b = LT
 	| otherwise = GT
 
--- bmi with where
+{-- bmi with where
 bmiTell' :: Double -> Double -> String
 bmiTell' weight height
-	| bmi <= 18.5 = "You're underweight, you emo, you!"
-	| bmi <= 25.0 = "you're supposedly normal"
-	| bmi <= 30.0 = "You're fat"
+	| skinny <= 18.5 = "You're underweight, you emo, you!"
+	| normal <= 25.0 = "you're supposedly normal"
+	| fat <= 30.0 = "You're fat"
 	| otherwise = "You're whale"
-	where bmi = weight / height ^ 2
+--	where bmi = weight / height ^ 2
+--		(skinny, normal, fat) = (18.5, 25.0, 30.0)
 
 -- パターンマッチとwhere
 -- whereの束縛の中でもパターンマッチできる
@@ -102,7 +103,26 @@ calcBmis :: [(Double, Double)] -> [Double]
 calcBmis xs = [bmi w h | (w, h) <- xs]
 	where bmi weight height = weight / height^2
 
+--}
+
+cylinder :: Double->Double->Double
+cylinder r h =
+	let sideArea = 2 * pi + r + h
+	    topArea  = pi * r^2
+	in  sideArea + 2 * topArea
+
+calcBmis :: [(Double, Double)] -> [Double]
+calcBmis xs = [bmi | (w, h) <- xs, let bmi = w / h^2, bmi > 25.0]
 
 
+describeList :: [a] -> String
+describeList ls = "The list is"
+                    ++ case ls  of [] -> "empty."
+                                   [x] -> "a singleton list."
+                                   xs -> "a longer list."
 
 
+maximum' :: (Ord a) => [a] -> a
+maximum' [] = error "maximum of empty list"
+maximum' [x] = x
+maximum' (x:xs) = max x (maximum' xs)
