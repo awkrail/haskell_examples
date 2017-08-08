@@ -23,7 +23,6 @@ reverse' (x:xs) = reverse' xs ++ [x]
 --repeat' x = x : repeat' x
 
 zip' :: [a] -> [a] -> [(a, a)]
-zip' [] [] = []
 zip' _ [] = []
 zip' [] _ = []
 zip' (x:xs) (y:ys) = (x, y) : zip' xs ys
@@ -31,3 +30,10 @@ zip' (x:xs) (y:ys) = (x, y) : zip' xs ys
 elem' :: (Eq a) => a -> [a] -> Bool
 elem' _ [] = False
 elem' a (x:xs) = if x == a then True else False
+
+quickSort :: (Ord a) => [a] -> [a]
+quickSort [] = []
+quickSort (x:xs) =
+	let smallerOrEqual = [a | a <- xs, a <= x]
+	    greater = [a | a <- xs, a > x]
+	in  quickSort smallerOrEqual ++ [x] ++ quickSort greater
