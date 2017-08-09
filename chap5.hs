@@ -45,3 +45,61 @@ collatz n
 numLongChains :: Int
 numLongChains = length (filter isLong (map collatz [1..100]))
     where isLong xs = length xs > 15
+
+-- lambda
+numLongChains' :: Int
+numLongChains' = length (filter (\xs -> length xs > 15) (map collatz [1..100]))
+
+-- foldl
+sum' :: (Num a) => [a] -> a
+sum' xs = foldl (\acc x -> x + acc) 0 xs
+
+-- carry and foldl
+sum'' :: (Num a) => [a] -> a
+sum'' = foldl (+) 0
+
+-- map foldr
+map'' :: (a -> b) -> [a] -> [b]
+map'' f xs = foldr (\x acc -> f x : acc) [] xs
+
+-- map foldl
+map''' :: (a -> b) -> [a] -> [b]
+map''' f xs = foldl (\acc x -> acc ++ [f x]) [] xs
+
+-- elem'
+elem' :: (Eq a) => a -> [a] -> Bool
+elem' y ys = foldr (\x acc -> if x == y then True else acc) False ys
+
+-- fold1
+maximum' :: (Ord a) => [a] -> a
+maximum' = foldl1 max
+
+-- reverse
+reverse' :: [a] -> [a]
+reverse' = foldl (\acc x -> x : acc) []
+
+-- product
+product' :: (Num a) => [a] -> a
+product' = foldl (*) 1
+
+-- filter
+filter'' :: (a->Bool)->[a]->[a]
+filter'' f = foldl (\acc a -> if f a then acc ++ [a] else acc) []
+
+-- and
+and' :: [Bool] -> Bool
+and' xs = foldr (&&) True xs
+
+-- sqrt sum < 1000
+sqrtSums :: Int
+sqrtSums = length (takeWhile (<1000) (scanl1 (+) (map sqrt [1..]))) + 1
+
+-- chap5 last
+oddSquareSum :: Integer
+oddSquareSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+
+oddSquareSum' :: Integer
+oddSquareSum' = sum.takeWhile (<10000) $ filter odd $ map (^2) [1..]
+
+
+
